@@ -1,0 +1,40 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin: 0;
+    padding: 0;
+    word-break: break-all;
+}
+
+.main-container {
+    background-color: #999999;
+    width: 320px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.key-value-container {
+    background-color: #888888;
+    display: flex;
+}
+
+.unmatched-list {
+    background-color: #777777;
+}
+
+.unmatched-list li {
+    background-color: #666666;
+    margin-bottom: 15px;
+    padding: 18px 15px;
+    border-radius: 8px;
+    min-width: 30px;
+    text-align: center;
+}
+
+.key-list {
+    margin-left: 15px;
+}

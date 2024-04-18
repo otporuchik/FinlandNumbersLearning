@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello world!</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <ul class="key-list numbers-list"></ul>
-    <ul class="value-list numbers-list"></ul>
-    <ul class="matched-list"></ul>
+    <div class="main-container">
+        <div class="key-value-container">
+            <ul class="value-list unmatched-list"></ul>
+            <ul class="key-list unmatched-list"></ul>
+        </div>
+        <button type="button" class="start-game-button">Новая игра</button>
+        <ul class="matched-list"></ul>
+    </div>
     <script src="main.js"></script>
 </body>
 </html>
