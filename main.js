@@ -12,13 +12,24 @@ let baseNumberObj = {
     10: "kymmenen", 
 }
 
+//init
 let baseLimitInput = document.querySelector('.inputBaseLimit');
 let toistaLimitInput = document.querySelector('.inputToistaLimit');
 let manualLimitInput = document.querySelector('.inputManualLimit');
+
+let minLimit = 0;
+let maxLimit = 99;
 let firstLimitInput = document.querySelector('#inputFirstLImit');
 let secondLimitInput = document.querySelector('#inputSecondLimit');
 
-//init settings as baseLimitInput checked by default in index.html
+firstLimitInput.setAttribute('min', minLimit);
+firstLimitInput.setAttribute('max', maxLimit);
+firstLimitInput.setAttribute('value', minLimit);
+
+secondLimitInput.setAttribute('min', minLimit);
+secondLimitInput.setAttribute('max', maxLimit);
+secondLimitInput.setAttribute('value', maxLimit);
+
 firstLimitInput.setAttribute('disabled', '');
 secondLimitInput.setAttribute('disabled', '');
 
@@ -54,10 +65,36 @@ let dataJSON = undefined;
 //Определяет лимит границ для набора чисел и вызывает функцию создания объекта с набором чисел.
 let getData = function() {
     let numberRangeLimits = document.querySelector('input[name="numberRangeSetting"]:checked');
+    let rangeLimit = document.querySelector('#inputFirstLImit');
+    let firstRangeLimit = rangeLimit.min;
+    let secondRangeLimit = rangeLimit.max;
+
     //if manual mode selected
     if(numberRangeLimits.value == -1) {
-        let limits = `${firstLimitInput.value},${secondLimitInput.value}`;
+        let thisFirstLimit = undefined;
+        let thisSecondLimit = undefined;
+        if(firstLimitInput.value < minLimit) {
+            thisFirstLimit = minLimit;
+            firstLimitInput.value = minLimit
+        } else if(firstLimitInput.value > maxLimit) {
+            thisFirstLimit = maxLimit;
+            firstLimitInput.value = maxLimit
+        } else {
+            thisFirstLimit = firstLimitInput.value
+        }
+        if(secondLimitInput.value < minLimit) {
+            thisSecondLimit = minLimit;
+            secondLimitInput.value = minLimit
+        } else if(secondLimitInput.value > maxLimit) {
+            thisSecondLimit = maxLimit;
+            secondLimitInput.value = maxLimit
+        } else {
+            thisSecondLimit = secondLimitInput.value
+        }
+        let limits = `${thisFirstLimit},${thisSecondLimit}`;
         dataJSON = numberDataGenerator(limits);
+
+        console.log(limits);
         return limits;
     } else {
         dataJSON = numberDataGenerator(numberRangeLimits.value);
@@ -195,7 +232,7 @@ let startGame = function () {
         for (let i = values.length; i >= 0; i--) {
             valueList.appendChild(valueList.children[Math.random() * i | 0])
         }
-
+        
         //adding eventListeners to numbers to interact with user
 
         let keyElementsList = document.querySelectorAll('.numbers-list__element');
