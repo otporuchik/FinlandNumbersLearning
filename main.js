@@ -1,19 +1,100 @@
-let simpleNumberJSON = {
-    "yksi": 1,
-    "kaksi": 2,
-    "kolme": 3, 
-    "nelja": 4, 
-    "viisi": 5, 
-    "kuusi": 6, 
-    'kahdeksankymmentakahdeksyan': 88, 
-    'kymmenen': 10, 
+let baseNumberObj = {
+    0: "nolla", 
+    1: "yksi",
+    2: "kaksi",
+    3: "kolme", 
+    4: "neljä", 
+    5: "viisi", 
+    6: "kuusi", 
+    7: "seitsemän", 
+    8: "kahdeksan", 
+    9: "yhdeksän", 
+    10: "kymmenen", 
 }
+
+let baseLimitInput = document.querySelector('.inputBaseLimit');
+let toistaLimitInput = document.querySelector('.inputToistaLimit');
+let manualLimitInput = document.querySelector('.inputManualLimit');
+let firstLimitInput = document.querySelector('#inputFirstLImit');
+let secondLimitInput = document.querySelector('#inputSecondLimit');
+
+//init settings as baseLimitInput checked by default in index.html
+firstLimitInput.setAttribute('disabled', '');
+secondLimitInput.setAttribute('disabled', '');
+
+baseLimitInput.addEventListener('change', () => {
+    if(!firstLimitInput.hasAttribute('disabled')) {
+        firstLimitInput.setAttribute('disabled', '');
+    } 
+    if(!secondLimitInput.hasAttribute('disabled')) {
+        secondLimitInput.setAttribute('disabled', '');
+    }
+});
+
+toistaLimitInput.addEventListener('change', () => {
+    if(!firstLimitInput.hasAttribute('disabled')) {
+        firstLimitInput.setAttribute('disabled', '');
+    } 
+    if(!secondLimitInput.hasAttribute('disabled')) {
+        secondLimitInput.setAttribute('disabled', '');
+    }
+});
+
+manualLimitInput.addEventListener('change', () => {
+    if(firstLimitInput.hasAttribute('disabled')) {
+        firstLimitInput.removeAttribute('disabled');
+    } 
+    if (secondLimitInput.hasAttribute('disabled')) {
+        secondLimitInput.removeAttribute('disabled');
+    }
+});
 
 let dataJSON = undefined;
 
+//Определяет лимит границ для набора чисел и вызывает функцию создания объекта с набором чисел.
 let getData = function() {
-    dataJSON = simpleNumberJSON;
+    let numberRangeLimits = document.querySelector('input[name="numberRangeSetting"]:checked');
+    //if manual mode selected
+    if(numberRangeLimits.value == -1) {
+        let limits = `${firstLimitInput.value},${secondLimitInput.value}`;
+        dataJSON = numberDataGenerator(limits);
+        return limits;
+    } else {
+        dataJSON = numberDataGenerator(numberRangeLimits.value);
+        return numberRangeLimits.value;
+    }
+    // dataJSON = numberDataGenerator(toistaCheckbox);
+    // dataJSON = Object.assign(yksiJSON, toistaJSON);
 }
+
+let numberDataGenerator = function (numbersRangeArrayInString) {
+    let numbersRangeArray = numbersRangeArrayInString.split(',');
+    let firstLimit = numbersRangeArray[0];
+    let lastLimit = numbersRangeArray[numbersRangeArray.length - 1];
+    let minNumber = Math.min(firstLimit, lastLimit);
+    let maxNumber = Math.max(firstLimit, lastLimit);
+    let numberDataObj = {};
+    
+    for (let i=minNumber; i <= maxNumber; i++) {
+        //let dataKey = Object.keys(baseNumberJSON)[i];
+        let dataValue = undefined;
+        if(i <= 10) {
+            dataValue = baseNumberObj[i];
+        } else if (i > 10 && i < 20) {
+            dataValue = `${baseNumberObj[i%10]}toista`;
+        } else if (i >= 20 && i < 100) {
+            if(i%10 != 0) {
+                dataValue = `${baseNumberObj[Math.floor(i/10)]}kymmentä${baseNumberObj[i%10]}`;
+            } else {
+                dataValue = `${baseNumberObj[Math.floor(i/10)]}kymmentä`;
+            }
+        }
+            
+        numberDataObj[i] = dataValue;
+    }
+    return numberDataObj;
+}
+numberDataGenerator(getData());
 
 let firstSelected, secondSelected;
 
@@ -88,46 +169,48 @@ let compareSelected = function() {
 
 let startGame = function () {
     getData();
-    //creating elements lists as html objects
-    for (let key in dataJSON) {
-        const keyElement = document.createElement("li");
-        const keyContent = document.createTextNode(key);
-        keyElement.classList.add('key-list__element');
-        keyElement.classList.add('numbers-list__element');
-        keyElement.appendChild(keyContent);
-        keyList.appendChild(keyElement);
+    if(dataJSON != undefined && dataJSON != null) {
+        //creating elements lists as html objects
+        for (let key in dataJSON) {
+            const keyElement = document.createElement("li");
+            const keyContent = document.createTextNode(key);
+            keyElement.classList.add('key-list__element');
+            keyElement.classList.add('numbers-list__element');
+            keyElement.appendChild(keyContent);
+            keyList.appendChild(keyElement);
 
-        const valueElement = document.createElement("li");
-        const valueContent = document.createTextNode(dataJSON[key]);
-        valueElement.classList.add('value-list__element');
-        valueElement.classList.add('numbers-list__element');
-        valueElement.appendChild(valueContent);
-        valueList.appendChild(valueElement);
-    }
+            const valueElement = document.createElement("li");
+            const valueContent = document.createTextNode(dataJSON[key]);
+            valueElement.classList.add('value-list__element');
+            valueElement.classList.add('numbers-list__element');
+            valueElement.appendChild(valueContent);
+            valueList.appendChild(valueElement);
+        }
 
-    //shuffling numbers in lists
-    for (let i = keys.length; i >= 0; i--) {
-        keyList.appendChild(keyList.children[Math.random() * i | 0]);
-    }
+        //shuffling numbers in lists
+        for (let i = keys.length; i >= 0; i--) {
+            keyList.appendChild(keyList.children[Math.random() * i | 0]);
+        }
 
-    for (let i = values.length; i >= 0; i--) {
-        valueList.appendChild(valueList.children[Math.random() * i | 0])
-    }
+        for (let i = values.length; i >= 0; i--) {
+            valueList.appendChild(valueList.children[Math.random() * i | 0])
+        }
 
-    //adding eventListeners to numbers to interact with user
+        //adding eventListeners to numbers to interact with user
 
-    let keyElementsList = document.querySelectorAll('.numbers-list__element');
+        let keyElementsList = document.querySelectorAll('.numbers-list__element');
 
-    for (let i = 0; i < keyElementsList.length; i++) {
-        let thisElement = keyElementsList.item(i);
-        thisElement.addEventListener('click', () => {
-            if (firstSelected == undefined && secondSelected == undefined) {
-                setSelected(thisElement);
-            } else {
-                setSelected(thisElement);
-                compareSelected();
-            }
-        })    
+        for (let i = 0; i < keyElementsList.length; i++) {
+            let thisElement = keyElementsList.item(i);
+            thisElement.addEventListener('click', () => {
+                if (firstSelected == undefined && secondSelected == undefined) {
+                    setSelected(thisElement);
+                } else {
+                    setSelected(thisElement);
+                    compareSelected();
+                }
+            })    
+        }
     }
 }
 
