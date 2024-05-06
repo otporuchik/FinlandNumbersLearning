@@ -145,6 +145,7 @@ let setSelected = function (element) {
     } else if (secondSelected == undefined) {
         secondSelected = element;
         secondSelected.style.backgroundColor = 'pink';
+        compareSelected();
     } 
 }
 
@@ -240,18 +241,13 @@ let startGame = function () {
         for (let i = 0; i < keyElementsList.length; i++) {
             let thisElement = keyElementsList.item(i);
             thisElement.addEventListener('click', () => {
-                if (firstSelected == undefined && secondSelected == undefined) {
-                    setSelected(thisElement);
-                } else {
-                    setSelected(thisElement);
-                    compareSelected();
-                }
-            })    
+                setSelected(thisElement);
+            })
         }
     }
 }
 
-let startGameButton = document.querySelector('.start-game-button');
+let startGameButton = document.querySelector('.game-settings__start-game-button');
 
 startGameButton.onclick = function(evt) {
     evt.preventDefault();
