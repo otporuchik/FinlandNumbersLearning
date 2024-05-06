@@ -133,6 +133,11 @@ let numberDataGenerator = function (numbersRangeArrayInString) {
 }
 numberDataGenerator(getData());
 
+let gameIndicatorImg = document.querySelector('.game-settings__result-image img');
+let imgSuccess = "./game-settings/result_success.svg";
+let imgFailure = "./game-settings/result_failure.svg";
+let imgAwait = "./game-settings/result_await.svg";
+
 let firstSelected, secondSelected;
 
 let setSelected = function (element) {
@@ -142,6 +147,7 @@ let setSelected = function (element) {
     } else if (secondSelected == undefined && firstSelected == element) {
         firstSelected.style.backgroundColor = 'white';
         firstSelected = undefined;
+        gameIndicatorImg.setAttribute("src", imgAwait);
     } else if (secondSelected == undefined) {
         secondSelected = element;
         secondSelected.style.backgroundColor = 'pink';
@@ -168,11 +174,13 @@ let callMatch = function (keyElement) {
         keyList.removeChild(secondSelected);
         valueList.removeChild(firstSelected);
     }
+    gameIndicatorImg.setAttribute("src", imgSuccess);
 }
 
 let callUnMatch = function () {
     firstSelected.style.backgroundColor = 'white';
     secondSelected.style.backgroundColor = 'white';
+    gameIndicatorImg.setAttribute("src", imgFailure);
 }
 
 let keyList = document.querySelector('.key-list');
