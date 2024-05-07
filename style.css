@@ -198,6 +198,7 @@ ul, li {
 .game-matched-items {
     padding-left: 12px;
     padding-right: 12px;
+    padding-bottom: 15px;
 }
 
 .matched-list li {
@@ -219,4 +220,41 @@ ul, li {
     justify-content: center;
     align-items: center;
     background-color: #543D3D;
+}
+
+@media (min-width: 680px) {
+    .main-container {
+        width: 680px;
+    }
+
+    .main-header {
+        padding: 5px 28px 10px 20px;
+    }
+
+    .game-field {
+        display: grid;
+        grid-template-columns: 360px 320px;
+        grid-template-rows: 295px auto;
+        grid-template-areas: 
+        'unmatched settings'
+        'unmatched matched';
+        padding-top: 19px;
+    }
+
+    .game-settings {
+        grid-area: settings;
+        border-bottom: 1px solid #737373;
+    }
+    .game-settings__start-game-div::after {
+        display: none;
+    }
+
+    .game-unmatched-items {
+        grid-area: unmatched;
+        border-right: 1px solid #737373;
+    }
+
+    .game-matched-items {
+        grid-area: matched;
+    }
 }
