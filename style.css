@@ -90,7 +90,6 @@ ul, li {
 .game-settings__start-game-div {
     grid-column: 1 / -1;
     grid-row: 4 / 5;
-    background-color: pink;
     align-content: center;
     justify-self: center;
     position: relative;
@@ -233,12 +232,11 @@ ul, li {
 
     .game-field {
         display: grid;
-        grid-template-columns: 360px 320px;
+        grid-template-columns: 320px 360px;
         grid-template-rows: 295px auto;
         grid-template-areas: 
-        'unmatched settings'
-        'unmatched matched';
-        padding-top: 19px;
+        'settings unmatched'
+        'matched unmatched';
     }
 
     .game-settings {
@@ -251,10 +249,40 @@ ul, li {
 
     .game-unmatched-items {
         grid-area: unmatched;
-        border-right: 1px solid #737373;
+        border-left: 1px solid #737373;
+        padding-top: 19px;
     }
 
     .game-matched-items {
         grid-area: matched;
+    }
+}
+
+@media (min-width: 1000px) {
+    .main-container {
+        width: 1000px;
+    }
+
+    .game-field {
+        display: grid;
+        grid-template-columns: 320px 360px 320px;
+        grid-template-rows: 295px auto;
+        grid-template-areas: 
+        'settings unmatched matched'
+        ' . unmatched matched';
+    }
+
+    .game-settings {
+        grid-area: settings;
+    }
+
+    .game-unmatched-items {
+        grid-area: unmatched;
+    }
+
+    .game-matched-items {
+        grid-area: matched;
+        padding-top: 19px;
+        border-left: 1px solid #737373;
     }
 }
