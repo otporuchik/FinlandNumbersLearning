@@ -50,6 +50,11 @@ ul, li {
     margin: 0;
 }
 
+.main-header__logo-link {
+    text-decoration: none;
+    line-height: 0;
+}
+
 .game-field {
     background-color: #D9D9D9;
     flex-grow: 1;
@@ -296,4 +301,47 @@ ul, li {
     }
 }
 
-/*test new branch*/
+/*cardsAndWordsMatching*/
+
+.snoring-cat {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+
+    animation-name: sleepyCat;
+    animation-iteration-count: infinite;
+    animation-duration: 3s;
+    animation-direction: normal;
+    animation-timing-function: linear;
+    animation-fill-mode: backwards;
+    animation-play-state: running;
+}
+
+@keyframes sleepyCat {
+    0% {
+        background-image: url("./snoring_cat_svg/cat_sleep_0.svg");
+    }
+    25% {
+        background-image: url("./snoring_cat_svg/cat_sleep_1.svg");
+    }
+    50% {
+        background-image: url("./snoring_cat_svg/cat_sleep_2.svg");
+    }
+    75% {
+        background-image: url("./snoring_cat_svg/cat_sleep_3.svg");
+    }
+    100% {
+        background-image: url("./snoring_cat_svg/cat_sleep_0.svg");
+    }
+}
+
+.snoring-cat:hover,
+.snoring-cat:active,
+.snoring-cat:focus {
+    animation: none;
+    background-image: url("./snoring_cat_svg/cat_sleep_4--awaikened.svg");
+}
+
+.clickMe {
+    color: yellowgreen;
+}
